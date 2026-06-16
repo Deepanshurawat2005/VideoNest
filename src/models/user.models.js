@@ -47,10 +47,10 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 //here we are encrypting the password before saving the user to the database by userSchema.pre() middleware.
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 //here we are checking if the password is correct by comparing the hashed password
 userSchema.methods.isPasswordCorrect = async function (password) {
